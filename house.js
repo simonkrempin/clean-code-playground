@@ -14,12 +14,14 @@ const phrases = [
 
 const amountToPrint = process.argv[2] || phrases.length;
 
-const echoed = phrases.map((phrase) => phrase.repeat(2));
+console.log(`This is${shuffle(echo(phrases)).slice(0, amountToPrint).join("")}.`);
 
-console.log(`This is${shuffle(echoed).slice(0, amountToPrint).join("")}.`);
-
-function shuffle(phrases) {
-    return phrases.map((phrase) => ({ phrase, sort: Math.random() }))
+function shuffle(toShuffle) {
+    return toShuffle.map((phrase) => ({ phrase, sort: Math.random() }))
         .sort((a, b) => a.sort - b.sort)
         .map(({ phrase }) => phrase);
+}
+
+function echo(toEcho) {
+    return toEcho.map((phrase) => phrase.repeat(2));
 }
