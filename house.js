@@ -14,24 +14,27 @@ const phrases = [
 
 const args = getProcessArgs(phrases.length);
 
-printHouse(getSorter(args.shuffle), getFormatter(args.echo));
+printHouse(getSorter(args.order), getFormatter(args.echo));
 
-function printHouse(shuffle, echo) {
-    console.log(`This is${shuffle(echo(phrases)).slice(0, args.printCount).join("")}.`);
+function printHouse(sort, echo) {
+    console.log(`This is${sort(echo(phrases)).slice(0, args.printCount).join("")}.`);
 }
 
-function getSorter(shuffle = false) {
-    if (!shuffle) {
-        return (toShuffle) => toShuffle;
+function getSorter(order) {
+    switch (order) {
+        case "shuffle":
+            return (toShuffle) => toShuffle
+                .map((phrase) => ({
+                    phrase,
+                    sort: Math.random(),
+                }))
+                .sort((a, b) => a.sort - b.sort)
+                .map(({ phrase }) => phrase);
+        case "length":
+            return (toShuffle) => toShuffle.sort((a, b) => a.length - b.length);
+        default:
+            return (toShuffle) => toShuffle;
     }
-
-    return (toShuffle) => toShuffle
-        .map((phrase) => ({
-            phrase,
-            sort: Math.random(),
-        }))
-        .sort((a, b) => a.sort - b.sort)
-        .map(({ phrase }) => phrase);
 }
 
 function getFormatter(echo = false) {
