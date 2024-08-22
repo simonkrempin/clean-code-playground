@@ -14,7 +14,11 @@ const phrases = [
 
 const args = getProcessArgs(phrases.length);
 
-console.log(`This is${shuffle(echo(phrases, args.echo), args.shuffle).slice(0, args.printCount).join("")}.`);
+printHouse();
+
+function printHouse() {
+    console.log(`This is${shuffle(echo(phrases, args.echo), args.shuffle).slice(0, args.printCount).join("")}.`);
+}
 
 function shuffle(toShuffle, shuffle = false) {
     if (!shuffle) {
