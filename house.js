@@ -14,7 +14,9 @@ const phrases = [
 
 const amountToPrint = process.argv[2] || phrases.length;
 
-console.log(`This is${shuffle(phrases).slice(0, amountToPrint).join("")}.`);
+const echoed = phrases.map((phrase) => phrase.repeat(2));
+
+console.log(`This is${shuffle(echoed).slice(0, amountToPrint).join("")}.`);
 
 function shuffle(phrases) {
     return phrases.map((phrase) => ({ phrase, sort: Math.random() }))
