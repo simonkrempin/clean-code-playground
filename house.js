@@ -12,4 +12,6 @@ const phrases = [
     " the house that Jack built",
 ];
 
-console.log(`This is${phrases.join("")}.`);
+const amountToPrint = process.argv[2] || phrases.length;
+
+console.log(`This is${phrases.slice(0, amountToPrint).join("")}.`);
