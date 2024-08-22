@@ -19,7 +19,7 @@ printHouse(getPreprocessors(args));
 function printHouse(...preProcessors) {
     const houseString = preProcessors.reduce((toProcess, preprocessor) => preprocessor(toProcess), phrases);
 
-    console.log(`This is${houseString.slice(0, args.printCount).join("")}.`);
+    console.log(`This is${houseString.join("")}.`);
 }
 
 function getPreprocessors(preprocessorArguments) {
@@ -27,6 +27,7 @@ function getPreprocessors(preprocessorArguments) {
         getSorter(preprocessorArguments.order),
         getFormatter(preprocessorArguments.format),
         getFilter(preprocessorArguments.filter),
+        (phrases) => phrases.slice(0, preprocessorArguments.printCount),
     ];
 }
 
