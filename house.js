@@ -14,12 +14,20 @@ const phrases = [
 
 const args = getProcessArgs(phrases.length);
 
-printHouse(getSorter(args.order), getFormatter(args.format), getFilter(args.filter));
+printHouse(getPreprocessors(args));
 
 function printHouse(...preProcessors) {
     const houseString = preProcessors.reduce((toProcess, preprocessor) => preprocessor(toProcess), phrases);
 
     console.log(`This is${houseString.slice(0, args.printCount).join("")}.`);
+}
+
+function getPreprocessors(preprocessorArguments) {
+    return [
+        getSorter(preprocessorArguments.order),
+        getFormatter(preprocessorArguments.format),
+        getFilter(preprocessorArguments.filter),
+    ];
 }
 
 function getFilter(filter) {
