@@ -14,10 +14,18 @@ const phrases = [
 
 const args = getProcessArgs(phrases.length);
 
-printHouse(getSorter(args.order), getFormatter(args.format));
+printHouse(getSorter(args.order), getFormatter(args.format), getFilter(args.filter));
 
-function printHouse(sort, echo) {
-    console.log(`This is${sort(echo(phrases)).slice(0, args.printCount).join("")}.`);
+function printHouse(sort, echo, filter) {
+    console.log(`This is${sort(echo(filter(phrases))).slice(0, args.printCount).join("")}.`);
+}
+
+function getFilter(filter) {
+    if (!filter) {
+        return (toFilter) => toFilter;
+    }
+
+    return (toFilter) => toFilter.filter((_, i) => i % filter === 0);
 }
 
 function getSorter(order) {
