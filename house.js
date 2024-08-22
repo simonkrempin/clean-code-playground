@@ -12,16 +12,43 @@ const phrases = [
     " the house that Jack built",
 ];
 
-const amountToPrint = process.argv[2] || phrases.length;
+const args = getProcessArgs(phrases.length);
 
-console.log(`This is${shuffle(echo(phrases)).slice(0, amountToPrint).join("")}.`);
+console.log(`This is${shuffle(echo(phrases, args.echo), args.shuffle).slice(0, args.printCount).join("")}.`);
 
-function shuffle(toShuffle) {
-    return toShuffle.map((phrase) => ({ phrase, sort: Math.random() }))
+function shuffle(toShuffle, shuffle = false) {
+    if (!shuffle) {
+        return toShuffle;
+    }
+
+    return toShuffle
+        .map((phrase) => ({
+            phrase,
+            sort: Math.random(),
+        }))
         .sort((a, b) => a.sort - b.sort)
-        .map(({ phrase }) => phrase);
+        .map(({ phrase, sort }) => phrase);
 }
 
-function echo(toEcho) {
+function echo(toEcho, echo = false) {
+    if (!echo) {
+        return toEcho;
+    }
+
     return toEcho.map((phrase) => phrase.repeat(2));
+}
+
+function getProcessArgs(default_print_count) {
+    const args = process.argv
+        .slice(2)
+        .map((value) => value.split("="));
+
+    const userInput = Object.fromEntries(args.map(([key, value]) => [
+        key.trim().replace("--", ""), value.trim(),
+    ]));
+
+    return {
+        ...userInput,
+        printCount: userInput.print_count ?? default_print_count,
+    }
 }
