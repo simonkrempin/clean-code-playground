@@ -12,17 +12,17 @@ const phrases = [
     " the house that Jack built",
 ];
 
-const args = getProcessArgs(phrases.length);
+const userInput = getUserInput(phrases.length);
 
-printHouse(getPreprocessors(args));
+printPhrases(getPhrasesModifier(userInput));
 
-function printHouse(...preProcessors) {
-    const houseString = preProcessors.reduce((toProcess, preprocessor) => preprocessor(toProcess), phrases);
+function printPhrases(...modifier) {
+    const houseString = modifier.reduce((toModify, modifier) => modifier(toModify), phrases);
 
     console.log(`This is${houseString.join("")}.`);
 }
 
-function getPreprocessors(preprocessorArguments) {
+function getPhrasesModifier(preprocessorArguments) {
     return [
         getSorter(preprocessorArguments.order),
         getFormatter(preprocessorArguments.format),
@@ -67,7 +67,7 @@ function getFormatter(format) {
     }
 }
 
-function getProcessArgs(default_print_count) {
+function getUserInput(default_print_count) {
     const args = process.argv
         .slice(2)
         .map((value) => value.split("="));
