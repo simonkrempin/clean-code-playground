@@ -14,9 +14,9 @@ const phrases = [
 
 const args = getProcessArgs(phrases.length);
 
-printHouse();
+printHouse(shuffle, echo);
 
-function printHouse() {
+function printHouse(shuffle, echo) {
     console.log(`This is${shuffle(echo(phrases, args.echo), args.shuffle).slice(0, args.printCount).join("")}.`);
 }
 
@@ -31,7 +31,7 @@ function shuffle(toShuffle, shuffle = false) {
             sort: Math.random(),
         }))
         .sort((a, b) => a.sort - b.sort)
-        .map(({ phrase, sort }) => phrase);
+        .map(({ phrase }) => phrase);
 }
 
 function echo(toEcho, echo = false) {
