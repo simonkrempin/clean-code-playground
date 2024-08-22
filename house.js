@@ -16,8 +16,10 @@ const args = getProcessArgs(phrases.length);
 
 printHouse(getSorter(args.order), getFormatter(args.format), getFilter(args.filter));
 
-function printHouse(sort, echo, filter) {
-    console.log(`This is${sort(echo(filter(phrases))).slice(0, args.printCount).join("")}.`);
+function printHouse(...preProcessors) {
+    const houseString = preProcessors.reduce((toProcess, preprocessor) => preprocessor(toProcess), phrases);
+
+    console.log(`This is${houseString.slice(0, args.printCount).join("")}.`);
 }
 
 function getFilter(filter) {
