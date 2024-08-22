@@ -14,7 +14,7 @@ const phrases = [
 
 const args = getProcessArgs(phrases.length);
 
-printHouse(getSorter(args.order), getFormatter(args.echo));
+printHouse(getSorter(args.order), getFormatter(args.format));
 
 function printHouse(sort, echo) {
     console.log(`This is${sort(echo(phrases)).slice(0, args.printCount).join("")}.`);
@@ -37,12 +37,15 @@ function getSorter(order) {
     }
 }
 
-function getFormatter(echo = false) {
-    if (!echo) {
-        return (toEcho) => toEcho;
+function getFormatter(format) {
+    switch (format) {
+        case "echo":
+            return (toEcho) => toEcho.map((phrase) => phrase.repeat(2));
+        case "reverse":
+            return (toEcho) => toEcho.map((phrase) => [...phrase].reverse().join(""))
+        default:
+            return (toEcho) => toEcho;
     }
-
-    return (toEcho) => toEcho.map((phrase) => phrase.repeat(2));
 }
 
 function getProcessArgs(default_print_count) {
