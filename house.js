@@ -14,8 +14,10 @@ const phrases = [
 
 const amountToPrint = process.argv[2] || phrases.length;
 
-phrases.map((phrase) => ({ phrase, sort: Math.random() }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(({ phrase }) => phrase);
+console.log(`This is${shuffle(phrases).slice(0, amountToPrint).join("")}.`);
 
-console.log(`This is${phrases.slice(0, amountToPrint).join("")}.`);
+function shuffle(phrases) {
+    return phrases.map((phrase) => ({ phrase, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ phrase }) => phrase);
+}
